@@ -1,96 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Weduc</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
         <!-- Styles -->
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
         <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
+            body {
                 font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
             }
         </style>
     </head>
-    <body>
-        <div class="flex-center position-ref full-height">
+    <body class="antialiased">
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             @if (Route::has('login'))
-                <div class="top-right links">
+                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Cadastro</a>
+                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
                         @endif
                     @endauth
                 </div>
             @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Weduc
-                </div>
-
-                <div class="links">
-                    <a href="https://ufrn.br">UFRN</a>
-                    <a href="http://ifrn.edu.br">IFRN</a>
-                    <a href="http://www.natalnet.br">Natalnet</a>
-                    <a href="http://laica.ifrn.edu.br">LAICA</a>
-                    <a href="https://github.com/natalnet/weduc">GitHub</a>
-                    <a href="{{ route('sbotics') }}">sBotics</a>
+            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
+                    <span class="text-7xl text-gray-700">wEduc</span>
                 </div>
             </div>
         </div>

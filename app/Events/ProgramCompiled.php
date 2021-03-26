@@ -2,14 +2,10 @@
 
 namespace App\Events;
 
-use App\Program;
-use Illuminate\Broadcasting\Channel;
+use App\Models\Program;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ProgramCompiled
 {
@@ -21,7 +17,7 @@ class ProgramCompiled
     /**
      * Create a new event instance.
      *
-     * @param \App\Program  $program
+     * @param \App\Models\Program  $program
      * @param \Exception|null  $exception
      * @return void
      */
@@ -29,15 +25,5 @@ class ProgramCompiled
     {
         $this->program = $program;
         $this->exception = $exception;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
     }
 }

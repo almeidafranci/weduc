@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\CompilationLog;
+use App\Models\CompilationLog;
 use App\Events\ProgramCompiled;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;

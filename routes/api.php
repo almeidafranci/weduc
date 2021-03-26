@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\ProgramController;
+use App\Http\Controllers\Api\ProgrammingLanguageController;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,55 +18,41 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::post('/sanctum/token', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+        'device_name' => 'required',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (! $user || ! \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
+        ]);
+    }
+
+    return $user->createToken($request->device_name)->plainTextToken;
+});
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/users/', 'API\UserController@index');
-
-Route::prefix('/languages')->middleware('throttle:60,1')->namespace('API')->group(function () {
-    Route::get('/', 'LanguageController@index');
-    Route::get('/{language}/functions', 'LanguageController@functions');
-    Route::get('/{language}/download/sending', 'LanguageController@downloadSending');
+Route::prefix('/languages')->middleware('throttle:60,1')->namespace('Api')->group(function () {
+    Route::get('/', [ProgrammingLanguageController::class, 'index']);
+    Route::get('/{language}/functions', [ProgrammingLanguageController::class, 'functions']);
+//    Route::get('/{language}/download/sending', 'LanguageController@downloadSending');
 });
 
-Route::prefix('/programs')->namespace('API')->group(function () {
-    Route::post('/', 'ProgramController@store');
-    Route::get('/user/current', 'ProgramController@indexForCurrentUser');
-    Route::get('/user/current/language/{language}', 'ProgramController@indexForCurrentUserAndLanguage');
-    Route::get('/user/{user}', 'ProgramController@indexForUser');
-    Route::put('/{program}', 'ProgramController@update');
-    Route::delete('/{program}', 'ProgramController@destroy');
-    Route::get('/{program}/compile', 'ProgramController@compile');
-    Route::get('/{program}/download/sender', 'ProgramController@downloadCodeSender');
+Route::middleware('auth:sanctum')->prefix('/programs')->namespace('Api')->group(function () {
+    Route::post('/', [ProgramController::class, 'store']);
+    Route::get('/user/current', [ProgramController::class, 'indexOfCurrentUser']);
+    Route::get('/user/current/language/{language}', [ProgramController::class, 'indexOfCurrentUserOfLanguage']);
+    Route::get('/user/{user}', [ProgramController::class, 'indexForUser']);
+    Route::put('/{program}', [ProgramController::class, 'update']);
+    Route::delete('/{program}', [ProgramController::class, 'destroy']);
+    Route::get('/{program}/compile', [ProgramController::class, 'compile']);
+//    Route::get('/{program}/download/sender', 'ProgramController@downloadCodeSender');
 });
-
-Route::get('/metrics/compilation-errors', 'API\MetricsController@compilationErrors');
-Route::get('/metrics/compilations-per-day', 'API\MetricsController@compilationsPerDay');
-
-Route::prefix('/classrooms')->namespace('API')->group(function () {
-    Route::get('/', 'ClassroomController@index');
-    Route::post('/', 'ClassroomController@store');
-    Route::post('/join', 'ClassroomController@join');
-    Route::get('/coaching', 'ClassroomController@coaching');
-    Route::get('/studying', 'ClassroomController@studying');
-});
-
-Route::prefix('/obr-simulada')->namespace('API')->group(function () {
-    Route::get('/version/{os}', 'ObrSimuladaController@version');
-
-    Route::prefix('/arenas')->middleware('auth:api')->group(function () {
-        Route::get('/', 'ArenaController@index');
-        Route::post('/', 'ArenaController@store');
-        Route::get('/{arena}', 'ArenaController@show');
-        Route::put('/{arena}', 'ArenaController@update');
-        Route::delete('/{arena}', 'ArenaController@destroy');
-
-        Route::prefix('/{arena}/usages')->group(function () {
-            Route::get('/', 'ArenaUsageController@arenaIndex');
-            Route::post('/', 'ArenaUsageController@store');
-            Route::get('/average', 'ArenaUsageController@average');
-        });
-    });
-});
-

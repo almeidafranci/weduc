@@ -1,93 +1,46 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <meta name="description" content="{{ config('app.description', 'An example app') }}">
-    <meta name="author" content="{{ config('app.author', 'John Doe') }}">
-    <meta name="keyword" content="{{ config('app.keyword', 'Laravel') }}">
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-    <link rel="shortcut icon" href="img/favicon.png">
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+        @livewireStyles
 
-    <!-- Main styles for this application -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <!-- Scripts -->
+        <script src="{{ mix('js/app.js') }}" defer></script>
+    </head>
+    <body class="font-sans antialiased">
+        <x-jet-banner />
 
-    <!-- Scripts -->
-    @stack('scripts')
-</head>
+        <div class="min-h-screen bg-gray-100">
+            @livewire('navigation-menu')
 
-<!-- BODY options, add following classes to body to change options
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endif
 
-// Header options
-1. '.header-fixed'                  - Fixed Header
-
-// Brand options
-1. '.brand-minimized'       - Minimized brand (Only symbol)
-
-// Sidebar options
-1. '.sidebar-fixed'                 - Fixed Sidebar
-2. '.sidebar-hidden'                - Hidden Sidebar
-3. '.sidebar-off-canvas'        - Off Canvas Sidebar
-4. '.sidebar-minimized'         - Minimized Sidebar (Only icons)
-5. '.sidebar-compact'             - Compact Sidebar
-
-// Aside options
-1. '.aside-menu-fixed'          - Fixed Aside Menu
-2. '.aside-menu-hidden'         - Hidden Aside Menu
-3. '.aside-menu-off-canvas' - Off Canvas Aside Menu
-
-// Breadcrumb options
-1. '.breadcrumb-fixed'          - Fixed Breadcrumb
-
-// Footer options
-1. '.footer-fixed'                  - Fixed footer
-
--->
-
-<body class="header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
-    <div id="app" class="app">
-        @include('parts.header')
-
-        <div class="app-body">
-            @include('parts.sidebar')
-
-            <!-- Main content -->
-            <main class="main" style="min-height: 84vh;">
-                <loading ref="loading"></loading>
-                @yield('content')
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
             </main>
-
-            @include('parts.aside')
         </div>
 
-        @include('parts.footer')
+        @stack('modals')
 
-        <portal-target name="modals"></portal-target>
-    </div>
-
-    <!-- Bootstrap and necessary plugins -->
-    <script src="{{ mix('js/manifest.js') }}"></script>
-    <script src="{{ mix('js/vendor.js') }}"></script>
-    <script src="{{ mix('js/app.js') }}"></script>
-
-    @stack('bottom-scripts')
-
-    <!-- Build Atom Instance -->
-    <script>
-        window.Atom = new CreateAtom({})
-    </script>
-
-    <!-- Start Atom -->
-    <script>
-        Atom.liftOff()
-    </script>
-</body>
-
+        @livewireScripts
+    </body>
 </html>

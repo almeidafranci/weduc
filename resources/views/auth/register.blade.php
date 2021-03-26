@@ -1,187 +1,60 @@
-@extends('layouts.singleform')
+<x-guest-layout>
+    <x-jet-authentication-card>
+        <x-slot name="logo">
+            <x-jet-authentication-card-logo />
+        </x-slot>
 
-@section('content')
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card p-4">
-            <div class="card-body">
-                <h1>Cadastro</h1>
-                <hr>
-                <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="redirect" value="{{ request('redirect') }}">
+        <x-jet-validation-errors class="mb-4" />
 
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" placeholder="Nome">
-                        </div>
-                        @if ($errors->has('name'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('name') }}</strong>
-                            </div>
-                        @endif
-                    </div>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-                    <div class="mb-3">
-                        <div>Sexo</div>
-                        <div class="input-group">
-                            <div class="control">
-                                <label class="radio">
-                                    <input type="radio" class="custom-radio{{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender" value="m" {{ old('gender') === 'm' ? 'checked' : '' }}>
-                                    Masculino
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" class="custom-radio{{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender" value="f" {{ old('gender') === 'f' ? 'checked' : '' }}>
-                                    Feminino
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" class="custom-radio{{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender" value="o" {{ old('gender') === 'o' ? 'checked' : '' }}>
-                                    Outros
-                                </label>
-                            </div>
-                        </div>
-                        @if ($errors->has('gender'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('gender') }}</strong>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fa fa-baby"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" value="{{ old('dob') }}" placeholder="Data de nascimento">
-                        </div>
-                        @if ($errors->has('dob'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('dob') }}</strong>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fa fa-university"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control{{ $errors->has('institution') ? ' is-invalid' : '' }}" name="institution" value="{{ old('institution') }}" placeholder="Instituição">
-                        </div>
-                        @if ($errors->has('institution'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('institution') }}</strong>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="input-group form-check">
-                            <input type="checkbox" class="form-check-input{{ $errors->has('is_public_institution') ? ' is-invalid' : '' }}" name="is_public_institution" value="1" {{ old('is_public_institution') ? 'checked' : '' }} placeholder="É instituição pública">
-                            <label for="is_public_institution" class="form-check-label">É instituição pública</label>
-                        </div>
-
-                        @if ($errors->has('is_public_institution'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('is_public_institution') }}</strong>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fa fa-map-marked"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" placeholder="Endereço">
-                        </div>
-                        @if ($errors->has('address'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('address') }}</strong>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="{{ old('city') }}" placeholder="Cidade">
-                            <input type="text" class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}" name="state" value="{{ old('state') }}" placeholder="Estado">
-                        </div>
-                        @if ($errors->has('city'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('city') }}</strong>
-                            </div>
-                        @endif
-                        @if ($errors->has('state'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('state') }}</strong>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fa fa-envelope"></i>
-                                </span>
-                            </div>
-                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="E-mail">
-                        </div>
-                        @if ($errors->has('email'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('email') }}</strong>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fa fa-lock"></i>
-                                </span>
-                            </div>
-                            <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="{{ old('password') }}" placeholder="@lang('register.form.password')">
-                        </div>
-                        @if ($errors->has('password'))
-                            <div class="invalid-feedback" style="display: block;">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fa fa-lock"></i>
-                                </span>
-                            </div>
-                            <input type="password" class="form-control" name="password_confirmation" placeholder="@lang('register.form.password_confirmation')">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-block btn-primary">
-                        Cadastrar
-                    </button>
-                    <a href="{{ route('login') }}" class="btn btn-block btn-success">
-                        Fazer login
-                    </a>
-                </form>
+            <div>
+                <x-jet-label for="name" value="{{ __('Name') }}" />
+                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
-        </div>
-    </div>
-</div>
-@endsection
+
+            <div class="mt-4">
+                <x-jet-label for="email" value="{{ __('Email') }}" />
+                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label for="password" value="{{ __('Password') }}" />
+                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+            </div>
+
+            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
+                <div class="mt-4">
+                    <x-jet-label for="terms">
+                        <div class="flex items-center">
+                            <x-jet-checkbox name="terms" id="terms"/>
+
+                            <div class="ml-2">
+                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
+                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
+                                ]) !!}
+                            </div>
+                        </div>
+                    </x-jet-label>
+                </div>
+            @endif
+
+            <div class="flex items-center justify-end mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                    {{ __('Already registered?') }}
+                </a>
+
+                <x-jet-button class="ml-4">
+                    {{ __('Register') }}
+                </x-jet-button>
+            </div>
+        </form>
+    </x-jet-authentication-card>
+</x-guest-layout>
