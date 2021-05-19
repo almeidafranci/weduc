@@ -30,7 +30,7 @@ class ProgramPolicy
      */
     public function view(User $user, Program $program)
     {
-        //
+        return $program->user_id === $user->id;
     }
 
     /**

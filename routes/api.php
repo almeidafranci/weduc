@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->prefix('/programs')->namespace('Api')->group(
     Route::get('/user/current', [ProgramController::class, 'indexOfCurrentUser']);
     Route::get('/user/current/language/{language}', [ProgramController::class, 'indexOfCurrentUserOfLanguage']);
     Route::get('/user/{user}', [ProgramController::class, 'indexForUser']);
+    Route::get('/{program}', [ProgramController::class, 'show']);
     Route::put('/{program}', [ProgramController::class, 'update']);
     Route::delete('/{program}', [ProgramController::class, 'destroy']);
     Route::get('/{program}/compile', [ProgramController::class, 'compile']);

@@ -79,6 +79,13 @@ class ProgramController extends Controller
         return $language->programs()->save($program);
     }
 
+    public function show(Program $program)
+    {
+        $this->authorize('view', $program);
+
+        return $program;
+    }
+
     public function update(Request $request, Program $program)
     {
         $request->validate([
