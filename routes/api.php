@@ -38,7 +38,7 @@ Route::post('/sanctum/token', function (Request $request) {
     ]);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum', 'locale'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -48,7 +48,7 @@ Route::prefix('/languages')->middleware('throttle:60,1')->namespace('Api')->grou
 //    Route::get('/{language}/download/sending', 'LanguageController@downloadSending');
 });
 
-Route::middleware('auth:sanctum')->prefix('/programs')->namespace('Api')->group(function () {
+Route::middleware(['auth:sanctum', 'locale'])->prefix('/programs')->namespace('Api')->group(function () {
     Route::post('/', [ProgramController::class, 'store']);
     Route::get('/user/current', [ProgramController::class, 'indexOfCurrentUser']);
     Route::get('/user/current/language/{language}', [ProgramController::class, 'indexOfCurrentUserOfLanguage']);

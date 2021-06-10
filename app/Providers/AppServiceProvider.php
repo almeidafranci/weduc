@@ -25,8 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($user = Auth::user()) {
-            App::setLocale($user->locale);
-        }
+        //
     }
 }
