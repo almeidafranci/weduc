@@ -45,17 +45,17 @@ Route::middleware(['auth:sanctum', 'locale'])->get('/user', function (Request $r
 Route::prefix('/languages')->middleware('throttle:60,1')->namespace('Api')->group(function () {
     Route::get('/', [ProgrammingLanguageController::class, 'index']);
     Route::get('/{language}/functions', [ProgrammingLanguageController::class, 'functions']);
-//    Route::get('/{language}/download/sending', 'LanguageController@downloadSending');
+  //Route::get('/{language}/download/sending', 'LanguageController@downloadSending');
 });
 
 Route::middleware(['auth:sanctum', 'locale'])->prefix('/programs')->namespace('Api')->group(function () {
     Route::post('/', [ProgramController::class, 'store']);
     Route::get('/user/current', [ProgramController::class, 'indexOfCurrentUser']);
     Route::get('/user/current/language/{language}', [ProgramController::class, 'indexOfCurrentUserOfLanguage']);
-//    Route::get('/user/{user}', [ProgramController::class, 'indexForUser']);
+//  Route::get('/user/{user}', [ProgramController::class, 'indexForUser']);
     Route::get('/{program}', [ProgramController::class, 'show']);
     Route::put('/{program}', [ProgramController::class, 'update']);
     Route::delete('/{program}', [ProgramController::class, 'destroy']);
     Route::get('/{program}/compile', [ProgramController::class, 'compile']);
-//    Route::get('/{program}/download/sender', 'ProgramController@downloadCodeSender');
+//  Route::get('/{program}/download/sender', 'ProgramController@downloadCodeSender');
 });

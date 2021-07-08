@@ -8,26 +8,25 @@ use App\Http\Controllers\Controller;
 
 class ProgrammingLanguageController extends Controller
 {
-    public function __construct()
-    {
-//        $this->middleware('auth:api')->except('functions');
-    }
+  public function __construct()
+  {
+    //        $this->middleware('auth:api')->except('functions');
+  }
 
-    public function index()
-    {
-        $languages = ProgrammingLanguage::get(['id', 'name', 'description']);
+  public function index()
+  {
+    $languages = ProgrammingLanguage::get(['id', 'name', 'description']);
+    return $languages;
+  }
 
-        return $languages;
-    }
-
-    public function functions(ProgrammingLanguage $language)
-    {
-        return $language->functions;
-    }
+  public function functions(ProgrammingLanguage $language)
+  {
+    return $language->functions;
+  }
 
 
-//    public function downloadSending(ProgrammingLanguage $language)
-//    {
-//        return response()->download($language->getFirstMedia('send')->getPath(), $language->id.'.zip');
-//    }
+  //    public function downloadSending(ProgrammingLanguage $language)
+  //    {
+  //        return response()->download($language->getFirstMedia('send')->getPath(), $language->id.'.zip');
+  //    }
 }

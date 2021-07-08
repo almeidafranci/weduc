@@ -14,7 +14,7 @@ class AddKeywordsLanguageColumnToProgrammingLanguagesTable extends Migration
     public function up()
     {
         Schema::table('programming_languages', function (Blueprint $table) {
-            $table->char('keywords_language',7)
+            $table->char('keywords_language', 7)
                 ->after('user_id')
                 ->default('pt_BR');
         });
