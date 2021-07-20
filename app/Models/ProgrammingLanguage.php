@@ -49,7 +49,11 @@ class ProgrammingLanguage extends Model //implements HasMedia
    *
    * @var array
    */
-  protected $casts = [];
+  protected $casts = [
+    'data_types' => 'array',
+    'control_flows' => 'array',
+    'data_operators' => 'array',
+  ];
 
 
   /**

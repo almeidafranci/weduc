@@ -17,6 +17,7 @@ class CreateProgrammingLanguagesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->char('keywords_language', 7)->default('pt_BR');
             $table->string('name');
             $table->text('description');
             $table->string('robot');
@@ -30,6 +31,9 @@ class CreateProgrammingLanguagesTable extends Migration
             $table->string('other_functions');
             $table->string('send_code');
             $table->string('sent_extension');
+            $table->json('data_types');
+            $table->json('control_flows');
+            $table->json('data_operators');
             $table->boolean('is_private');
             $table->timestamps();
         });

@@ -29,7 +29,7 @@ class ProgramController extends Controller
 {
     public function __construct()
     {
-//        $this->middleware('auth:api');
+        //$this->middleware('auth:api');
     }
 
     public function indexOfCurrentUser()
@@ -138,7 +138,6 @@ class ProgramController extends Controller
             // Loop through each language function and define its corresponding symbol in the parser
             foreach ($language->functions as $function) {
                 $parameters = $this->getFunctionParams($function->code);
-
                 $returnType = null;
                 switch ($function->return_type) {
                     case 'float':
@@ -151,7 +150,6 @@ class ProgramController extends Controller
                         $returnType = Types::BOOLEAN_TYPE;
                         break;
                 }
-
                 $parser->symbolTable->define(new FunctionSymbol($function->name, $returnType, $parameters));
             }
 
@@ -166,8 +164,8 @@ class ProgramController extends Controller
             $trans->setTaskDeclaration($language->other_functions);
             $trans->setCallFunction($language->call_function);
             $trans->setInstructionSeparator(";\r\n");
-            $controlFlow = $language->controlFlowStatements()->first();
 
+            $controlFlow = json_decode($language->control_flows);
             $trans->setIfStatement($controlFlow->if_code);
             $trans->setElseIfStatement($controlFlow->else_if);
             $trans->setElseStatement($controlFlow->else);
@@ -177,22 +175,25 @@ class ProgramController extends Controller
             $trans->setSwitchStatement($controlFlow->switch_code);
             $trans->setSwitchCaseStatement($controlFlow->case);
             $trans->setDoStatement($controlFlow->do_code);
-            $trans->setOperators([
-                ReducLexer::T_E => '&&',
-                ReducLexer::T_OU => '||',
-                ReducLexer::T_NEGATE => '!',
-                ReducLexer::T_EQUALS_EQUALS => '==',
-                ReducLexer::T_NOT_EQUAL => '!=',
-                ReducLexer::T_LESS_THAN => '<',
-                ReducLexer::T_GREATER_THAN => '>',
-                ReducLexer::T_LESS_THAN_EQUAL => '<=',
-                ReducLexer::T_GREATER_THAN_EQUAL => '>=',
+
+            $dataOperator = json_decode($language->data_operators);
+
+            $trans->setOperators([ReducLexer::T_E => $dataOperator->logical_and,
+                ReducLexer::T_OU => $dataOperator->logical_or,
+                ReducLexer::T_NEGATE => $dataOperator->logical_not,
+                ReducLexer::T_EQUALS_EQUALS => $dataOperator->equals_to,
+                ReducLexer::T_NOT_EQUAL => $dataOperator->not_equal_to,
+                ReducLexer::T_LESS_THAN => $dataOperator->less_than,
+                ReducLexer::T_GREATER_THAN => $dataOperator->greater_than,
+                ReducLexer::T_LESS_THAN_EQUAL => $dataOperator->less_than_or_equals_to,
+                ReducLexer::T_GREATER_THAN_EQUAL => $dataOperator->greater_than_or_equals_to,
             ]);
 
-            $trans->setVariableDeclarations([
-                Types::NUMBER_TYPE => $language->getDataType('declare_float'),
-                Types::STRING_TYPE => $language->getDataType('declare_string'),
-                Types::BOOLEAN_TYPE => $language->getDataType('declare_boolean'),
+            $dataTypes = json_decode($language->data_types);
+
+            $trans->setVariableDeclarations([Types::NUMBER_TYPE => $dataTypes->declare_float,
+                Types::STRING_TYPE => $dataTypes->declare_string,
+                Types::BOOLEAN_TYPE => $dataTypes->declare_boolean,
             ]);
 
             $functions = [];
@@ -250,19 +251,19 @@ class ProgramController extends Controller
         ];
     }
 
-//    public function compileTarget(Program $program)
-//    {
-//        TargetCompiler::compile($program);
-//
-//        return response(null, 204);
-//    }
+    //    public function compileTarget(Program $program)
+    //    {
+    //        TargetCompiler::compile($program);
+    //
+    //        return response(null, 204);
+    //    }
 
-//    public function downloadCodeSender(Program $program)
-//    {
-//        $codeSender = (new CodeSender())->for($program)->prepare()->makeClient();
-//
-//        return response()->download($codeSender->senderPath());
-//    }
+    //    public function downloadCodeSender(Program $program)
+    //    {
+    //        $codeSender = (new CodeSender())->for($program)->prepare()->makeClient();
+    //
+    //        return response()->download($codeSender->senderPath());
+    //    }
 
     protected function getFunctionParams($functionCode)
     {
