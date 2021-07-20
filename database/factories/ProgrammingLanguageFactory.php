@@ -23,8 +23,8 @@ class ProgrammingLanguageFactory extends Factory
   {
     return [
       'user_id' => "1",
-      'name' => "c#",
-      'description' => "c# Factory Create",
+      'name' => "C#",
+      'description' => "C# Factory Create",
       'robot' => "",
       'call_function' => "",
       'compile_code' => "",

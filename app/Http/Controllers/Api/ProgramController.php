@@ -178,7 +178,8 @@ class ProgramController extends Controller
 
             $dataOperator = json_decode($language->data_operators);
 
-            $trans->setOperators([ReducLexer::T_E => $dataOperator->logical_and,
+            $trans->setOperators([
+                ReducLexer::T_E => $dataOperator->logical_and,
                 ReducLexer::T_OU => $dataOperator->logical_or,
                 ReducLexer::T_NEGATE => $dataOperator->logical_not,
                 ReducLexer::T_EQUALS_EQUALS => $dataOperator->equals_to,
@@ -191,7 +192,8 @@ class ProgramController extends Controller
 
             $dataTypes = json_decode($language->data_types);
 
-            $trans->setVariableDeclarations([Types::NUMBER_TYPE => $dataTypes->declare_float,
+            $trans->setVariableDeclarations([
+                Types::NUMBER_TYPE => $dataTypes->declare_float,
                 Types::STRING_TYPE => $dataTypes->declare_string,
                 Types::BOOLEAN_TYPE => $dataTypes->declare_boolean,
             ]);
@@ -289,7 +291,6 @@ class ProgramController extends Controller
     public function destroy(Program $program)
     {
         $program->delete();
-
         return response(null, 204);
     }
 }

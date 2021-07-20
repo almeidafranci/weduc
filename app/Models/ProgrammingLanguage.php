@@ -18,6 +18,7 @@ class ProgrammingLanguage extends Model //implements HasMedia
    */
   protected $fillable = [
     'user_id',
+    'keywords_language',
     'name',
     'description',
     'robot',
@@ -31,6 +32,9 @@ class ProgrammingLanguage extends Model //implements HasMedia
     'other_functions',
     'send_code',
     'sent_extension',
+    'data_types',
+    'control_flows',
+    'data_operators',
     'is_private',
   ];
 
@@ -40,7 +44,6 @@ class ProgrammingLanguage extends Model //implements HasMedia
    * @var array
    */
   protected $hidden = [
-    'id',
     'user_id',
   ];
 
@@ -63,16 +66,6 @@ class ProgrammingLanguage extends Model //implements HasMedia
    */
   protected $guarded = [];
 
-  public function dataType()
-  {
-    return $this->hasOne(DataType::class);
-  }
-
-  public function operators()
-  {
-    return $this->hasOne(Operator::class);
-  }
-
   public function functions()
   {
     return $this->hasMany(ReducFunction::class);
@@ -81,15 +74,5 @@ class ProgrammingLanguage extends Model //implements HasMedia
   public function programs()
   {
     return $this->hasMany(Program::class);
-  }
-
-  public function controlFlowStatements()
-  {
-    return $this->hasOne(ControlFlow::class);
-  }
-
-  public function getDataType($key)
-  {
-    return $this->dataType->$key;
   }
 }

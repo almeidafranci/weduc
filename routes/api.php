@@ -1,11 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProgramController;
 use App\Http\Controllers\Api\ProgrammingLanguageController;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Validation\ValidationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,44 +17,37 @@ use Illuminate\Validation\ValidationException;
 |
 */
 
-Route::post('/sanctum/token', function (Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-        'device_name' => 'required',
-    ]);
+Route::post('/sanctum/token', [AuthController::class, 'makeToken']);
 
-    $user = User::where('email', $request->email)->first();
 
-    if (! $user || ! \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
-    }
+Route::middleware(['auth:sanctum', 'locale'])->group(function () {
 
-    return json_encode([
-        'access_token' => $user->createToken($request->device_name)->plainTextToken
-    ]);
+    Route::prefix('/user')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+    });
+
+    Route::prefix('/programs')->group(function () {
+        Route::post('/', [ProgramController::class, 'store']);
+
+        Route::prefix('/user')->group(function () {
+            Route::get('/current', [ProgramController::class, 'indexOfCurrentUser']);
+            Route::get('/current/language/{language}', [ProgramController::class, 'indexOfCurrentUserOfLanguage']);
+            //Route::get('/{user}', [ProgramController::class, 'indexForUser']);
+        });
+
+        Route::prefix('/{program}')->group(function () {
+            Route::get('/', [ProgramController::class, 'show']);
+            Route::put('/', [ProgramController::class, 'update']);
+            Route::delete('/', [ProgramController::class, 'destroy']);
+            Route::get('/compile', [ProgramController::class, 'compile']);
+            //Route::get('/download/sender', 'ProgramController@downloadCodeSender');
+        });
+    });
 });
 
-Route::middleware(['auth:sanctum', 'locale'])->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::prefix('/languages')->middleware('throttle:60,1')->namespace('Api')->group(function () {
-    Route::get('/', [ProgrammingLanguageController::class, 'index']);
-    Route::get('/{language}/functions', [ProgrammingLanguageController::class, 'functions']);
-  //Route::get('/{language}/download/sending', 'LanguageController@downloadSending');
-});
-
-Route::middleware(['auth:sanctum', 'locale'])->prefix('/programs')->namespace('Api')->group(function () {
-    Route::post('/', [ProgramController::class, 'store']);
-    Route::get('/user/current', [ProgramController::class, 'indexOfCurrentUser']);
-    Route::get('/user/current/language/{language}', [ProgramController::class, 'indexOfCurrentUserOfLanguage']);
-//  Route::get('/user/{user}', [ProgramController::class, 'indexForUser']);
-    Route::get('/{program}', [ProgramController::class, 'show']);
-    Route::put('/{program}', [ProgramController::class, 'update']);
-    Route::delete('/{program}', [ProgramController::class, 'destroy']);
-    Route::get('/{program}/compile', [ProgramController::class, 'compile']);
-//  Route::get('/{program}/download/sender', 'ProgramController@downloadCodeSender');
+Route::middleware('throttle:60,1')->group(function () {
+    Route::prefix('/languages')->group(function () {
+        Route::get('/', [ProgrammingLanguageController::class, 'index']);
+        Route::get('/{language}/functions', [ProgrammingLanguageController::class, 'functions']);
+    });
 });
