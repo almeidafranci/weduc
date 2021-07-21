@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/sanctum/token', [AuthController::class, 'makeToken']);
 
-
 Route::middleware(['auth:sanctum', 'locale'])->group(function () {
 
     Route::prefix('/user')->group(function () {

@@ -34,6 +34,7 @@ class ProgrammingLanguageFactory extends Factory
       'footer' => null,
       'main_function' => "void Main() { comandos }",
       'other_functions' => "void funcao() { comandos }",
+      'instruction_separator' => ";\r\n",
       'send_code' => "",
       'sent_extension' => "",
       'data_types' => json_encode([

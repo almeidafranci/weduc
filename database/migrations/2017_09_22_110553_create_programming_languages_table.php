@@ -29,6 +29,7 @@ class CreateProgrammingLanguagesTable extends Migration
             $table->text('footer')->nullable();
             $table->string('main_function');
             $table->string('other_functions');
+            $table->string('instruction_separator');
             $table->string('send_code');
             $table->string('sent_extension');
             $table->json('data_types');

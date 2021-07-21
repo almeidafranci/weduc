@@ -38,15 +38,6 @@ class Program extends Model
    */
   protected $casts = [];
 
-
-  /**
-   * The attributes that aren't mass assignable.
-   *
-   * @var array
-   */
-  protected $guarded = [];
-
-
   /**
    * Get the programming language that owns the program.
    */

@@ -11,6 +11,7 @@ class ProgrammingLanguage extends Model //implements HasMedia
 {
   //use HasMediaTrait;
   use HasFactory;
+
   /**
    * The attributes that are mass assignable.
    *
@@ -30,6 +31,7 @@ class ProgrammingLanguage extends Model //implements HasMedia
     'footer',
     'main_function',
     'other_functions',
+    'instruction_separator',
     'send_code',
     'sent_extension',
     'data_types',
@@ -57,14 +59,6 @@ class ProgrammingLanguage extends Model //implements HasMedia
     'control_flows' => 'array',
     'data_operators' => 'array',
   ];
-
-
-  /**
-   * The attributes that aren't mass assignable.
-   *
-   * @var array
-   */
-  protected $guarded = [];
 
   public function functions()
   {
