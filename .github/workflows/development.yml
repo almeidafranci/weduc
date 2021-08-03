@@ -48,6 +48,7 @@ jobs:
         mkdir -p database
         touch database/database.sqlite  
       env:
+        APP_ENV: test
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
     - name: Execute Migrations
