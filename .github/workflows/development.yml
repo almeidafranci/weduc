@@ -43,6 +43,10 @@ jobs:
       run: cp .env.testing .env
     - name: Generate key
       run: php artisan key:generate
+    - name: Create Database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: vendor/bin/phpunit
   
