@@ -36,9 +36,11 @@ jobs:
         php-version: '8.0'
     - uses: actions/checkout@v2
     - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+      #run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+      run: php -r "copy('.env.testing', '.env');"
     - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      #run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer install
     - name: Generate key
       run: php artisan key:generate
     - name: Directory Permissions
