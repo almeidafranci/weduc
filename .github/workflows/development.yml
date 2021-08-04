@@ -30,6 +30,9 @@ jobs:
     name: 📙 Laravel Test
     runs-on: ubuntu-latest
     steps:
+    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      with:
+        php-version: '8.0'
     - uses: actions/checkout@v2
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -43,15 +46,11 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-        php artisan migrate
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      uses: php-actions/phpunit@v3
-      with:
-        configuration: phpunit.xml
-        memory_limit: 256M
+      run: vendor/bin/phpunit
   
   web-deploy:
     name: 🚀 Deploy website
