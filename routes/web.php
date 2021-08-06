@@ -14,13 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    //dd(session());
+    // dd(session());
     return view('welcome');
 });
-
-Route::get('/teste', function ($id) {
-  return view('teste');
-})->name('teste');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
