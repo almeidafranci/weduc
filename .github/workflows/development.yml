@@ -48,7 +48,7 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+      #run: vendor/bin/phpunit
   
   web-deploy:
     name: 🚀 Deploy website
