@@ -26,10 +26,10 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-  laravel-tests:
-    name: 📙 Laravel Test
-    runs-on: ubuntu-latest
-#    steps:
+#  laravel-tests:
+##    name: 📙 Laravel Test
+ ###   runs-on: ubuntu-latest
+###    steps:
  #   - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
  #   - uses: actions/checkout@v2
   #  - name: Copy .env
@@ -50,23 +50,23 @@ jobs:
        # DB_DATABASE: database/database.sqlite
       #run: vendor/bin/phpunit
   
-  web-deploy:
-    name: 🚀 Deploy website
-    needs: [ php-tests, laravel-tests ]
-    runs-on: ubuntu-latest
-    steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
-    - name: 📂 Deploy to development server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.DEV_SSH_HOST }}
-        key: ${{ secrets.DEV_SSH_KEY }}
-        username: ${{ secrets.DEV_SSH_USERNAME }}
-        port: ${{ secrets.DEV_SSH_PORT }}  
-        use_insecure_cipher: true
-        script: |
-           cd /var/www/weduc
-           git pull
-           composer install
-           php artisan migrate
+ # web-deploy:
+#    name: 🚀 Deploy website
+ #   needs: [ php-tests ]
+ #   runs-on: ubuntu-latest
+ #   steps:
+ #   - name: 🚚 Get latest code
+ #     uses: actions/checkout@v2
+  #  - name: 📂 Deploy to development server
+  #    uses: appleboy/ssh-action@master
+  #    with:
+   #     host: ${{ secrets.DEV_SSH_HOST }}
+   #     key: ${{ secrets.DEV_SSH_KEY }}
+   #     username: ${{ secrets.DEV_SSH_USERNAME }}
+   #     port: ${{ secrets.DEV_SSH_PORT }}  
+    #    use_insecure_cipher: true
+     #   script: |
+      #     cd /var/www/weduc
+     #      git pull
+     #      composer install
+     #      php artisan migrate
