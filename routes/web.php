@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Dashabord\LanguageController;
-use App\Http\Controllers\Dashboard\DashboradController;
+use App\Http\Controllers\Dashboard\LanguageController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +21,10 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'locale'])->prefix('/dashboard')->group(function () {
-  Route::get('/', [DashboradController::class, 'index'])->name('dashboard');
+  Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
   Route::prefix('/languages')->group(function () {
     Route::get('/', [LanguageController::class, 'index'])->name('languages');
+    Route::get('/{id}', [LanguageController::class, 'view'])->name('languages.view');
   });
 });

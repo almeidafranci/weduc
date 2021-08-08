@@ -9,6 +9,10 @@ class LanguageController extends Controller
 {
   public function index()
   {
-    return view('dashboard');
+    return view('languages');
+  }
+  public function view()
+  {
+    return view('languages_view');
   }
 }
