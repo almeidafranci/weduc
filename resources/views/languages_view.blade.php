@@ -45,7 +45,7 @@
                 Main Function
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <code>void Main() { comandos }</code>
+                <div class="w-full h-10" id="MONACO_MAINCODE"></div>
               </dd>
             </div>
 
@@ -54,7 +54,7 @@
                 Other Function
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <code>void funcao() { comandos }</code>
+                <div class="w-full h-10" id="MONACO_FUNCTIONCODE"></div>
               </dd>
             </div>
 
@@ -117,4 +117,34 @@
       </div>
     </div>
   </div>
+  <script>
+    var require = {
+      paths: {
+        vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs",
+      },
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.nls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/language/json/jsonMode.min.js" integrity="sha512-aQrzmemT0LpBxaZ5ThtMfQ8XqtCeys7Nl7Iy6zfVGdtgdliA375gCzrirVyPpwfUaMxNtPV7/plfFzAz3mXOGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src="https://unpkg.com/monaco-themes/dist/monaco-themes.js"></script>
+
+  <script>
+    monaco.editor.create(document.getElementById("MONACO_MAINCODE"), {
+      value: `void Main(){ comandos }`,
+      lineNumbers: "on",
+      readOnly: false,
+      theme: "vs-dark",
+      language: "csharp",
+    });
+    monaco.editor.create(document.getElementById("MONACO_FUNCTIONCODE"), {
+      value: `void funcao() { comandos }`,
+      lineNumbers: "on",
+      readOnly: false,
+      theme: "vs-dark",
+      language: "csharp",
+    });
+  </script>
+
 </x-app-layout>
