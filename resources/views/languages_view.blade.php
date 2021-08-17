@@ -8,13 +8,16 @@
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6">
-          <h3 class="leading-6 text-indigo-500 font-bold text-lg">
-            Csharp
-          </h3>
-          <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Linguagem de programação usada no simuador
-          </p>
+        <div class="px-4 py-5 sm:px-6 flex flex-row items-center">
+          <img class="h-11 w-h-11 rounded-full object-cover" src="https://ui-avatars.com/api/?name=Csharp&color=C7D2FE&background=4F46E5">
+          <div class="px-3">
+            <h3 class="leading-6 text-indigo-500 font-bold text-lg">
+              Csharp
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              Linguagem de programação usada no simuador
+            </p>
+          </div>
         </div>
         <div class="border-t border-gray-200">
           <dl>
@@ -71,7 +74,7 @@
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
 
-                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm cursor-pointer ">
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm cursor-pointer hover:bg-gray-100">
                     <div class="w-0 flex-1 flex items-center">
                       <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -88,7 +91,7 @@
                       </a>
                     </div>
                   </li>
-                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm cursor-pointer ">
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm cursor-pointer hover:bg-gray-100">
                     <div class="w-0 flex-1 flex items-center">
                       <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />

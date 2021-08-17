@@ -6,7 +6,6 @@
       </h2>
     </div>
 
-
   </x-slot>
 
   <div class="py-12">
@@ -31,10 +30,13 @@
           </div>
         </a>
         <hr>
-        <a href="#" class="w-full flex flex-col justify-between items-start p-4 md:flex-row md:items-center">
-          <div class="mb-3 md:mb-0">
-            <h4 class="text-indigo-500 font-bold text-lg">Csharp</h4>
-            <h5 class="text-gray-500 text-sm">Linguagem de programação usada no simuador</h5>
+        <a href="{{route('languages.view', '1')}}" class="w-full flex flex-col justify-between items-start p-4 md:flex-row md:items-center">
+          <div class="w-full flex flex-row items-center mb-3 md:mb-0">
+            <img class="h-11 w-h-11 rounded-full object-cover" src="https://ui-avatars.com/api/?name=Csharp&color=C7D2FE&background=4F46E5">
+            <div class="px-3">
+              <h4 class="text-indigo-500 font-bold text-lg">Csharp</h4>
+              <h5 class="text-gray-500 text-sm">Linguagem de programação usada no simuador</h5>
+            </div>
           </div>
           <div>
             <svg class="hidden h-4 text-gray-600 md:block" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
