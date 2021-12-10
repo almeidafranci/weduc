@@ -18,6 +18,7 @@ use Illuminate\Validation\ValidationException;
 |
 */
 
+/*
 Route::post('/sanctum/token', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
@@ -58,4 +59,4 @@ Route::middleware(['auth:sanctum', 'locale'])->prefix('/programs')->namespace('A
     Route::delete('/{program}', [ProgramController::class, 'destroy']);
     Route::get('/{program}/compile', [ProgramController::class, 'compile']);
 //    Route::get('/{program}/download/sender', 'ProgramController@downloadCodeSender');
-});
+});*/
