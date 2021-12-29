@@ -17,6 +17,15 @@ class ProgrammingLanguage extends Model //implements HasMedia
      */
     protected $guarded = [];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'black_list_keywords' => 'array'
+    ];
+
     public function dataType()
     {
         return $this->hasOne(DataType::class);

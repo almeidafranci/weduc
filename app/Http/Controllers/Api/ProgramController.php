@@ -14,14 +14,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Natalnet\Relex\Exceptions\InvalidCharacterException;
+use Natalnet\Relex\Exceptions\InvalidIdentifierException;
 use Natalnet\Relex\Exceptions\SymbolNotDefinedException;
 use Natalnet\Relex\Exceptions\SymbolRedeclaredException;
 use Natalnet\Relex\Exceptions\TypeMismatchException;
 use Natalnet\Relex\Exceptions\UnexpectedTokenException;
-use Natalnet\Relex\FunctionSymbol;
+use Natalnet\Relex\FunctionsSymbol;
 use Natalnet\Relex\ReducLexer;
 use Natalnet\Relex\EnglishReducLexer;
 use Natalnet\Relex\ReducParser;
+use Natalnet\Relex\TargetBlackListSymbol;
 use Natalnet\Relex\Translator\Translator;
 use Natalnet\Relex\Types;
 
@@ -152,7 +154,11 @@ class ProgramController extends Controller
                         break;
                 }
 
-                $parser->symbolTable->define(new FunctionSymbol($function->name, $returnType, $parameters));
+                $parser->symbolTable->define(new FunctionsSymbol($function->name, $returnType, $parameters));
+            }
+
+            foreach ($language->black_list_keywords as $black_list_keyword){
+                $parser->symbolTable->define(new TargetBlackListSymbol($black_list_keyword, ReducLexer::T_TARGET_BLACKLIST));
             }
 
             $parser->parse();
@@ -164,6 +170,7 @@ class ProgramController extends Controller
 
             $trans->setMainFunction($language->main_function);
             $trans->setTaskDeclaration($language->other_functions);
+            $trans->setFunctionDeclaration($language->function_declaration);
             $trans->setCallFunction($language->call_function);
             $trans->setInstructionSeparator(";\r\n");
             $controlFlow = $language->controlFlowStatements()->first();
@@ -196,13 +203,19 @@ class ProgramController extends Controller
             ]);
 
             $trans->setParameterDeclarations([
-                Types::NUMBER_TYPE => 'float variavel',
+                Types::NUMBER_TYPE => 'double variavel',
                 Types::STRING_TYPE => 'string variavel',
                 Types::BOOLEAN_TYPE => 'bool variavel',
             ]);
 
+            $trans->setReturnTypeFunctionDeclaration([
+                Types::NUMBER_TYPE => 'double',
+                Types::STRING_TYPE => 'string',
+                Types::BOOLEAN_TYPE => 'bool',
+            ]);
+
             $trans->setStatic('static');
-            $trans->setVoidReturn('return;');
+            $trans->setVoidReturn("\r\nreturn;\r\n");
 
             $functions = [];
             foreach ($language->functions as $function) {
@@ -216,10 +229,12 @@ class ProgramController extends Controller
 
             event(new ProgramCompiled($program));
         } catch (\Exception $e) {
-            dd( $e);
             if ($e instanceof InvalidCharacterException) {
                 $line = $e->codeLine;
                 $message = __('reduc.invalid_character', ['character' => $e->character]);
+            } elseif ($e instanceof InvalidIdentifierException) {
+                $line = $e->codeLine;
+                $message = __('reduc.invalid_identifier', ['character' => $e->character]);
             } elseif ($e instanceof SymbolNotDefinedException) {
                 $line = $e->codeLine;
                 $message = __('reduc.symbol_not_defined', ['symbol' => $e->symbolName]);
