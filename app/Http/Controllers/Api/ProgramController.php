@@ -195,6 +195,15 @@ class ProgramController extends Controller
                 Types::BOOLEAN_TYPE => $language->getDataType('declare_boolean'),
             ]);
 
+            $trans->setParameterDeclarations([
+                Types::NUMBER_TYPE => 'float variavel',
+                Types::STRING_TYPE => 'string variavel',
+                Types::BOOLEAN_TYPE => 'bool variavel',
+            ]);
+
+            $trans->setStatic('static');
+            $trans->setVoidReturn('return;');
+
             $functions = [];
             foreach ($language->functions as $function) {
                 $functions[$function->name] = $function->code;
@@ -207,6 +216,7 @@ class ProgramController extends Controller
 
             event(new ProgramCompiled($program));
         } catch (\Exception $e) {
+            dd( $e);
             if ($e instanceof InvalidCharacterException) {
                 $line = $e->codeLine;
                 $message = __('reduc.invalid_character', ['character' => $e->character]);
@@ -215,9 +225,11 @@ class ProgramController extends Controller
                 $message = __('reduc.symbol_not_defined', ['symbol' => $e->symbolName]);
             } elseif ($e instanceof TypeMismatchException) {
                 $line = $e->codeLine;
+                dd($e);
                 $message = __('reduc.type_mismatch', ['expected' => __('reduc.' . $e->expectedType), 'found' => __('reduc.' . $e->foundType)]);
             } elseif ($e instanceof UnexpectedTokenException) {
                 $line = $e->codeLine;
+                dd($e);
                 $message = __('reduc.unexpected_token', ['expected' => $e->expectedToken, 'found' => $e->foundToken]);
             } elseif ($e instanceof SymbolRedeclaredException) {
                 $line = $e->codeLine;

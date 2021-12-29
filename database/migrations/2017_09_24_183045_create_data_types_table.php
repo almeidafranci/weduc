@@ -17,8 +17,10 @@ class CreateDataTypesTable extends Migration
             $table->increments('id');
             $table->integer('programming_language_id')->unsigned();
             $table->foreign('programming_language_id')
-                  ->references('id')->on('programming_languages')
-                  ->onDelete('cascade');
+                ->references('id')->on('programming_languages')
+                ->onDelete('cascade');
+            $table->string('key');
+            $table->string('value');
             $table->string('declare_string');
             $table->string('declare_float');
             $table->string('declare_boolean');
